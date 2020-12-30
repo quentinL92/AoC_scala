@@ -13,7 +13,6 @@ libraryDependencies ++= Seq(
 import ReleaseTransformations._
 
 releaseProcess := Seq[ReleaseStep](
-  checkSnapshotDependencies,              // : ReleaseStep
   inquireVersions,                        // : ReleaseStep
   setReleaseVersion,                      // : ReleaseStep
   setNextVersion                         // : ReleaseStep
