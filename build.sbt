@@ -10,6 +10,9 @@ libraryDependencies ++= Seq(
   "com.beachape" %% "enumeratum" % enumeratumVersion
 )
 
+
+publish / skip := true
+
 import ReleaseTransformations._
 
 releaseProcess := Seq[ReleaseStep](
