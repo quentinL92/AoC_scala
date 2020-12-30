@@ -10,7 +10,9 @@ libraryDependencies ++= Seq(
   "com.beachape" %% "enumeratum" % enumeratumVersion
 )
 
-publishTo := Some(Resolver.file("file", new File("D:\\Temp")))
+//publishTo := Some(Resolver.file("file", new File("/Users/al/tmp")))
+
+publish / skip := true
 
 import ReleaseTransformations._
 
