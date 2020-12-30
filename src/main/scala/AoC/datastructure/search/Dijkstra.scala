@@ -1,7 +1,6 @@
 package AoC.datastructure.search
 
 import AoC.datastructure.graph.{Edge, Graph, Path}
-import AoC.year2015.Day09.path
 
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
@@ -33,7 +32,14 @@ object Dijkstra {
     def pathTo(to: V): Path[W] = pathTo(graph.indexOfVertex(to))
 
     def pathToString(path: Path[W]): String =
-      path.map(edge => s"${graph.vertexAt(edge.from)} -${edge.weight}-> ${graph.vertexAt(edge.to)}").mkString("\n")
+      path.map(edge => s"${graph.vertexAt(edge.from)} -> ${graph.vertexAt(edge.to)}").mkString("\n")
+
+    def weightByPathWithVertices(to: V)(implicit n: Numeric[W]): (W, Set[Int]) = {
+      val path = pathTo(to)
+      path.foldLeft(n.zero)((acc, cur) => n.plus(acc, cur.weight)) -> path.foldLeft(Set.empty[Int]) {
+        case (set, edge) => (set + edge.from) + edge.to
+      }
+    }
   }
 
   def shortestPathsFrom[V, W](
@@ -44,6 +50,7 @@ object Dijkstra {
                                implicit ev: W => Ordered[W],
                                n: Numeric[W]
                              ): DijkstraResult[V,W] = {
+    println(s"Dijkstra shortestPathsFrom $from")
     val indexOfFirst: Int = graph.indexOfVertex(from)
     val distances: mutable.Map[Int, W] = mutable.Map[Int, W](indexOfFirst -> n.zero)
     val pathMap: mutable.Map[Int, Edge[W]] = mutable.Map.empty
@@ -74,7 +81,7 @@ object Dijkstra {
         }
       }
     }
+    println(s"Result for shortest path: distances='$distances' pathMap='$pathMap'")
     DijkstraResult(from, graph, distances.toMap, pathMap.toMap)
   }
-  val
 }

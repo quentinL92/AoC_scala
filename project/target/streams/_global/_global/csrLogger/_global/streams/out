@@ -1,0 +1,4 @@
+[debug] downloaded https://repo1.maven.org/maven2/com/github/gseitz/sbt-release_2.12_1.0/1.0.13/sbt-release-1.0.13.pom
+[debug] downloaded https://repo1.maven.org/maven2/com/github/gseitz/sbt-release_2.12_1.0/1.0.13/sbt-release-1.0.13.pom.sha1
+[debug] downloaded https://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.github.gseitz/sbt-release/scala_2.12/sbt_1.0/1.0.13/ivys/ivy.xml
+[debug] downloaded https://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.github.gseitz/sbt-release/scala_2.12/sbt_1.0/1.0.13/jars/sbt-release.jar
