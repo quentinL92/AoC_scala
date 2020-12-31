@@ -1,5 +1,4 @@
-val s = Set.empty[Int]
-(s + 1).last
-(s + 1 + 2).last
-(s + 2 + 1).last
-(s + 2 + 1 + 2 + 1 + 2 + 3 + 1).last
+val input = "113322113".toList
+val char: Char = input.head
+val idx = input.indexWhere(_ != char)
+val nextInput: List[Char] = input.drop(idx)
