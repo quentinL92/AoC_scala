@@ -1,5 +1,7 @@
 package AoC.datastructure.graph
 
+import scala.collection.immutable.Queue
+
 case class Graph[V, W](
                         vertices: Vector[V],
                         edges: Map[Int, List[Edge[W]]] = Map.empty[Int, List[Edge[W]]]
@@ -63,19 +65,19 @@ case class Graph[V, W](
     val wantedPathLength: Int = vertices.length
     println(s"Wanted visited length = $wantedPathLength")
 
-    def findPaths(visitedVertices: Set[V], currentPath: Path[W] = Nil, currentWeight: W = n.zero): Unit = {
-      val lastVisitedVertex: V = visitedVertices.last
+    def findPaths(visitedVertices: Set[V], lastVisitedVertex: V, currentPath: Queue[Edge[W]] = Queue.empty[Edge[W]], currentWeight: W = n.zero): Unit = {
+      val shouldPrint: Boolean = currentPath.take(4) == Queue(Edge(7, 0, 68), Edge(0, 6, 11), Edge(6, 1, 48), Edge(1, 2, 4))
       val neighborsVertices = neighborsForVertexWithWeights(lastVisitedVertex).filterNot(visitedVertices contains _._1)
       neighborsVertices match {
         case Nil =>
-          if (visitedVertices.size == wantedPathLength) paths = paths + (currentPath.reverse -> currentWeight)
+          if (visitedVertices.size == wantedPathLength) paths = paths + (currentPath.toList -> currentWeight)
           else ()
         case list =>
           list collect {
             case (nextVertex: V, nextWeight: W) =>
               edgeFromToWith(lastVisitedVertex, nextVertex, nextWeight) match {
                 case Some(value) =>
-                  findPaths(visitedVertices + nextVertex, value :: currentPath, n.plus(currentWeight, nextWeight))
+                  findPaths(visitedVertices + nextVertex, nextVertex, currentPath.appended(value), n.plus(currentWeight, nextWeight))
                 case None => ()
               }
           }
@@ -84,11 +86,10 @@ case class Graph[V, W](
     }
 
     for (startingVertex <- vertices) {
-      findPaths(Set(startingVertex))
+      findPaths(Set(startingVertex), startingVertex)
     }
 
     println()
-
     paths.minBy(_._2)
 
   }
