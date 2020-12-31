@@ -6,7 +6,7 @@ import AoC.datastructure.graph.Graph
 import scala.util.matching.Regex
 
 object Day09 extends AoCDay(2015, 9) {
-  val lines: Vector[String] = getLines()
+  val lines: Vector[String] = getLines(true)
   val TownRegex: Regex = """(\w+) to (\w+) = \d+""".r
   val EdgeRegex: Regex = """(\w+) to (\w+) = (\d+)""".r
   val towns: Set[String] = lines

@@ -4,8 +4,8 @@ import scala.io.Source
 import scala.util.{Failure, Success, Using}
 
 abstract class AoCDay(year: Int, day: Int) extends App {
-  val testFileName: String = s"D:\\Dev\\Scala\\sbt\\AoC\\src\\main\\resources\\AoC\\year$year\\test$day.txt"
-  val inputFileName: String = s"D:\\Dev\\Scala\\sbt\\AoC\\src\\main\\resources\\AoC\\year$year\\input$day.txt"
+  val testFileName: String = s"src/main/resources/AoC/year$year/test$day.txt"
+  val inputFileName: String = s"src/main/resources/AoC/year$year/input$day.txt"
 
   def getLines(test: Boolean = false): Vector[String] = {
     val fileName: String = if (test) testFileName else inputFileName

@@ -1,26 +1,19 @@
-import sbtrelease.Version.Bump
-import sbtrelease.Version.Bump.{Bugfix, Major, Minor}
+import sbtrelease.Version.Bump.{Major, Minor, Next}
 import sbtrelease.versionFormatError
 
 name := "AoC"
 
 scalaVersion := "2.13.4"
 
-val enumeratumVersion = "1.6.1"
-
-libraryDependencies ++= Seq(
-  "com.beachape" %% "enumeratum" % enumeratumVersion
-)
-
 publish / skip := true
 
-import ReleaseTransformations._
+import sbtrelease.ReleasePlugin.autoImport.ReleaseTransformations._
 import sbtrelease.Version
 
 releaseVersion := { ver =>
   val baseVersion: Option[Version] = Version(ver).map(_.withoutQualifier)
   releaseVersionBump.value match {
-    case Bump.Major | Bump.Minor =>
+    case Major | Minor =>
       baseVersion.map(_.bump(releaseVersionBump.value).string).getOrElse(versionFormatError(ver))
     case _ =>
       baseVersion.map(_.string).getOrElse(versionFormatError(ver))
@@ -29,7 +22,7 @@ releaseVersion := { ver =>
 
 releaseNextVersion := { ver =>
   println(s"Release Next Version: $ver")
-  Version(ver).map(_.bump(Bump.Next).asSnapshot.string).getOrElse(versionFormatError(ver))
+  Version(ver).map(_.bump(Next).asSnapshot.string).getOrElse(versionFormatError(ver))
 }
 
 releaseVersionBump := Minor
