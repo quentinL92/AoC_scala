@@ -16,6 +16,10 @@ object Day09 extends AoCDay(2015, 9) {
   val graph: Graph[String, Int] = lines.foldLeft[Graph[String, Int]](Graph[String, Int](towns.toVector)) {
     case (g, EdgeRegex(town1, town2, weight)) => g.addEdgeBidirectionalByVertices(town1, town2, weight.toInt)
   }
-  val shortestPath = graph.shortestMultiSourcePathUsingAllVertices
+  val shortestPath = graph.shortesMultiSourcePathUsingAllVerticesWithWeight
   println(s"ShortestPath: ${shortestPath._1} with weight: ${shortestPath._2}")
+
+  val longestPath = graph.longestMultiSourcePathUsingAllVerticesWithWeight
+  println(s"LongestPath: ${longestPath._1} with weight: ${longestPath._2}")
+
 }

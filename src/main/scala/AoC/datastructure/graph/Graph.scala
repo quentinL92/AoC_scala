@@ -59,14 +59,18 @@ case class Graph[V, W](
   override def toString: String =
     vertices.map(v => s"v -> ${neighborsForVertexWithWeights(v)}").mkString("\n")
 
+  def shortesMultiSourcePathUsingAllVerticesWithWeight: (Path[W], W) =
+    allMultiSourcePathsUsingAllVerticesWithWeight.minBy(_._2)
 
-  def shortestMultiSourcePathUsingAllVertices: (Path[W], W) = {
+  def longestMultiSourcePathUsingAllVerticesWithWeight: (Path[W], W) =
+    allMultiSourcePathsUsingAllVerticesWithWeight.maxBy(_._2)
+
+  private def allMultiSourcePathsUsingAllVerticesWithWeight: Set[(Path[W], W)] = {
     var paths: Set[(Path[W], W)] = Set.empty[(Path[W], W)]
     val wantedPathLength: Int = vertices.length
     println(s"Wanted visited length = $wantedPathLength")
 
     def findPaths(visitedVertices: Set[V], lastVisitedVertex: V, currentPath: Queue[Edge[W]] = Queue.empty[Edge[W]], currentWeight: W = n.zero): Unit = {
-      val shouldPrint: Boolean = currentPath.take(4) == Queue(Edge(7, 0, 68), Edge(0, 6, 11), Edge(6, 1, 48), Edge(1, 2, 4))
       val neighborsVertices = neighborsForVertexWithWeights(lastVisitedVertex).filterNot(visitedVertices contains _._1)
       neighborsVertices match {
         case Nil =>
@@ -88,9 +92,6 @@ case class Graph[V, W](
     for (startingVertex <- vertices) {
       findPaths(Set(startingVertex), startingVertex)
     }
-
-    println()
-    paths.minBy(_._2)
-
+    paths
   }
 }
