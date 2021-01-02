@@ -1,4 +1,5 @@
-val input = "113322113".toList
-val char: Char = input.head
-val idx = input.indexWhere(_ != char)
-val nextInput: List[Char] = input.drop(idx)
+import scala.util.matching.Regex
+
+val TwoGroupsOfTwoIdenticalChar: Regex = """(?:([a-z])\1.*){2}""".r
+
+TwoGroupsOfTwoIdenticalChar.findFirstIn("abcdffaa").isDefined
