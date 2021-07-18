@@ -1,5 +1,4 @@
-import scala.util.matching.Regex
+val s = "12"
 
-val TwoGroupsOfTwoIdenticalChar: Regex = """(?:([a-z])\1.*){2}""".r
-
-TwoGroupsOfTwoIdenticalChar.findFirstIn("abcdffaa").isDefined
+s.split(':')
+s.split(',')

@@ -36,3 +36,4 @@ releaseProcess := Seq[ReleaseStep](
   commitNextVersion,
   pushChanges
 )
+libraryDependencies += "org.typelevel" %% "cats-core" % "2.3.0"

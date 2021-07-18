@@ -3,3 +3,5 @@
 /target/
 /.bsp/
 /.idea/
+/src/main/scala/AoC/.idea/
+/src/main/scala/AoC/AoC.iml
