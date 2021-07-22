@@ -5,20 +5,15 @@ import cats.data.Validated
 import cats.data.Validated.{Invalid, Valid}
 import cats.implicits._
 
-import java.io.{BufferedWriter, File, FileWriter}
 import scala.collection.mutable
 
 object Day12Part1 extends AoCDay(2015, 12) {
-  val line: String = getLine(test = false)
-  println(line)
+  lazy val line: String = getLine()
 
-  val logFile: File = new File("D:\\Dev\\Scala\\sbt\\AoC_scala\\src\\main\\resources\\log.txt")
-  val bw = new BufferedWriter(new FileWriter(logFile))
-
-  val openingBrackets: List[Char] = List('{', '[')
-  val closingBrackets: List[Char] = List('}', ']')
-  val openingArrayBracket: Char = '['
-  val openingObjectBracket: Char = '{'
+  lazy val openingBrackets: List[Char] = List('{', '[')
+  lazy val closingBrackets: List[Char] = List('}', ']')
+  lazy val openingArrayBracket: Char = '['
+  lazy val openingObjectBracket: Char = '{'
 
   private def getMatchingBracket(bracket: Char): Char =
     bracket match {
@@ -28,13 +23,7 @@ object Day12Part1 extends AoCDay(2015, 12) {
       case ']' => '['
     }
 
-  private def writeLine(line: String): Unit = {
-    bw.write(line)
-    bw.newLine()
-  }
-
   def extractInts(json: String): Validated[String, List[Int]] = {
-    writeLine(s"extractInts: $json")
     if (json.isEmpty) Valid(Nil)
     else {
       json.head match {
@@ -58,7 +47,6 @@ object Day12Part1 extends AoCDay(2015, 12) {
   }
 
   private def split(jsonArray: String): List[String] = {
-    writeLine("--------split---------")
     val stack = mutable.Stack.empty[Char]
     var currentString = ""
     val res = jsonArray.foldLeft(List.empty[String]) {
@@ -87,16 +75,12 @@ object Day12Part1 extends AoCDay(2015, 12) {
   }
 
   private def splitAndGetValues(jsonObject: String): List[String] = {
-    writeLine(s"splitAndGetValues - input - $jsonObject")
     val res1 = split(jsonObject)
-    writeLine(s"split output - $res1")
     val res = res1.map(_.dropWhile(_ != ':').stripPrefix(":"))
-    writeLine(s"splitAndGetValues - output - $res")
     res
   }
 
   private def extractIntsFromArray(json: String): Validated[String, List[Int]] = {
-    writeLine(s"extractIntsFromArray: $json")
     if (json.isEmpty) Valid(Nil)
     else {
       split(json)
@@ -107,7 +91,6 @@ object Day12Part1 extends AoCDay(2015, 12) {
   }
 
   private def extractIntsFromObject(json: String): Validated[String, List[Int]] = {
-    writeLine(s"extractIntsFromObject: $json")
     if (json.isEmpty) Valid(Nil)
     else {
       splitAndGetValues(json)
@@ -117,12 +100,10 @@ object Day12Part1 extends AoCDay(2015, 12) {
     }
   }
 
-  extractInts(line.replace(" ", "")) match {
+  override def resolveDay(): Unit = extractInts(line.replace(" ", "")) match {
     case Valid(ints) =>
       println(s"numbers found: $ints")
       println(s"The sum of all numbers is: ${ints.sum}")
     case Invalid(e) => println(s"ERROR while parsing json: $e")
   }
-
-  bw.close()
 }

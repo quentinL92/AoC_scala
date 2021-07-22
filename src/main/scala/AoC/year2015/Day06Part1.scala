@@ -19,7 +19,7 @@ case class TurnOff(start: Position, last: Position) extends Instruction
 case class Toggle(start: Position, last: Position) extends Instruction
 
 object Day06Part1 extends AoCDay(2015, 6) {
-  val InstructionLine: Regex = """(turn on|toggle|turn off) (\d+),(\d+) through (\d+),(\d+)""".r
+  lazy val InstructionLine: Regex = """(turn on|toggle|turn off) (\d+),(\d+) through (\d+),(\d+)""".r
   lazy val instructions: List[Instruction] = getLines().toList.map {
     case InstructionLine(instruction, fromx, fromy, tox, toy) if instruction == "turn on" =>
       TurnOn(Position(fromx.toInt, fromy.toInt), Position(tox.toInt, toy.toInt))
@@ -39,10 +39,10 @@ object Day06Part1 extends AoCDay(2015, 6) {
         y <- start.y to last.y
       } yield Position(x, y)).foldLeft(lightsLit) {
         case (set, position: Position) if set(position) => set - position
-        case (set, position: Position) => set + position
+        case (set, position: Position)                  => set + position
       }
   }
-//  println(s"Res1: {lightsLit.size}")
 
+  override def resolveDay(): Unit = println(s"Res1: {lightsLit.size}")
 
 }

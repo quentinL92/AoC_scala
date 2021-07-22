@@ -21,11 +21,11 @@ object Day11 extends AoCDay(2015, 11) {
       }
   }
 
-  val TwoGroupsOfTwoIdenticalChar: Regex = """(?:([a-z])\1.*){2}""".r
+  lazy val TwoGroupsOfTwoIdenticalChar: Regex = """(?:([a-z])\1.*){2}""".r
   def twoGroupsOfTwoIdenticalCharsValidation(string: String): Boolean =
     TwoGroupsOfTwoIdenticalChar.findFirstIn(string).isDefined
 
-  val forbiddenChars: List[Char] = List('i', 'o', 'l')
+  lazy val forbiddenChars: List[Char] = List('i', 'o', 'l')
   def notContainsForbiddenChars(string: String): Boolean =
     forbiddenChars.forall(forbiddenChar => !(string contains forbiddenChar))
 
@@ -53,10 +53,12 @@ object Day11 extends AoCDay(2015, 11) {
     }
     pwd
   }
-  val input: String = "hepxcrrq"
-  val res1 = nextPwd(input)
-  println(s"Res1: $res1")
+  override def resolveDay(): Unit = {
+    val input: String = "hepxcrrq"
+    val res1 = nextPwd(input)
+    println(s"Res1: $res1")
 
-  val res2 = nextPwd(res1)
-  println(s"Res2: $res2")
+    val res2 = nextPwd(res1)
+    println(s"Res2: $res2")
+  }
 }

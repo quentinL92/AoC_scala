@@ -3,7 +3,7 @@ package AoC.year2015
 import AoC.AoCDay
 
 object Day08Part2 extends AoCDay(2015, 8) {
-  val lines = getLines()
+  lazy val lines = getLines()
 
   def countChars(currentCount: (Int, Int), string: String): (Int, Int) = {
     val (realCount, representationCount) = currentCount
@@ -16,9 +16,10 @@ object Day08Part2 extends AoCDay(2015, 8) {
     (realCount + string.length, representationCount + newRepresentation.length)
   }
 
-  val (realNbChars, representationNbChars) = lines.foldLeft((0, 0))(countChars)
-  val res2 = representationNbChars - realNbChars
-  println(s"Res2: $representationNbChars - $realNbChars = $res2")
+  lazy val (realNbChars, representationNbChars) = lines.foldLeft((0, 0))(countChars)
+  lazy val res2 = representationNbChars - realNbChars
+
+  override def resolveDay(): Unit = println(s"Res2: $representationNbChars - $realNbChars = $res2")
 
 //  2355 too high
 

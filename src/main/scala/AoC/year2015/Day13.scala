@@ -2,22 +2,13 @@ package AoC.year2015
 
 import AoC.AoCDay
 
-import java.io.{BufferedWriter, File, FileWriter}
-
 object Day13 extends AoCDay(2015, 13) {
-  val logFile: File = new File("D:\\Dev\\Scala\\sbt\\AoC_scala\\src\\main\\resources\\log.txt")
-  val bw = new BufferedWriter(new FileWriter(logFile))
 
-  private def writeLine(line: String): Unit = {
-    bw.write(line)
-    bw.newLine()
-  }
+  lazy val GainRegex = """([a-zA-Z]+) would gain (\d+) happiness units by sitting next to ([a-zA-Z]+)\.\s?""".r
+  lazy val LossRegex = """([a-zA-Z]+) would lose (\d+) happiness units by sitting next to ([a-zA-Z]+)\.\s?""".r
 
-  val GainRegex = """([a-zA-Z]+) would gain (\d+) happiness units by sitting next to ([a-zA-Z]+)\.\s?""".r
-  val LossRegex = """([a-zA-Z]+) would lose (\d+) happiness units by sitting next to ([a-zA-Z]+)\.\s?""".r
-
-  val lines = getLines(test = false)
-  val mapLove: Map[String, Map[String, Int]] = lines
+  lazy val lines = getLines()
+  lazy val mapLove: Map[String, Map[String, Int]] = lines
     .collect {
       case GainRegex(a, amount, b) => (a, amount.toInt, b)
       case LossRegex(a, amount, b) => (a, -amount.toInt, b)
@@ -73,13 +64,12 @@ object Day13 extends AoCDay(2015, 13) {
     }
   }
 
-  val res = mapLove
+  lazy val res = mapLove
     .flatMap {
       case (name, _) =>
         computeHappiness(Vector(name), 0, Nil)
     }
 
-  bw.close()
-  println(s"Best happiness Score: ${res.max}")
+  override def resolveDay(): Unit = println(s"Best happiness Score: ${res.max}")
 
 }

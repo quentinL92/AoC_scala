@@ -9,8 +9,8 @@ object Day05 extends AoCDay(2015, 5) {
     checks.forall(_ (string))
   }
 
-  val vowels: List[Char] = List('a', 'e', 'i', 'o', 'u')
-  val notIn: List[String] = List("ab", "cd", "pq", "xy")
+  lazy val vowels: List[Char] = List('a', 'e', 'i', 'o', 'u')
+  lazy val notIn: List[String] = List("ab", "cd", "pq", "xy")
 
   @tailrec
   def checkAdjacent(list: List[Char]): Boolean = list match {
@@ -44,9 +44,11 @@ object Day05 extends AoCDay(2015, 5) {
 
   def pairRepeatedCheck(str: String): Boolean = checkPairRepeated(str.toList)
 
-  val res1 = getLines().count(isNice(_, List(vowelsCheck, adjacentCheck, notInCheck)))
-  println(s"Res1: $res1")
+  override def resolveDay(): Unit = {
+    val res1 = getLines().count(isNice(_, List(vowelsCheck, adjacentCheck, notInCheck)))
+    println(s"Res1: $res1")
 
-  val res2 = getLines().count(isNice(_, List(adjacentWithCharBetweenCheck, pairRepeatedCheck)))
-  println(s"Res2: $res2")
+    val res2 = getLines().count(isNice(_, List(adjacentWithCharBetweenCheck, pairRepeatedCheck)))
+    println(s"Res2: $res2")
+  }
 }

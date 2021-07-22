@@ -5,16 +5,17 @@ import AoC.AoCDay
 import scala.annotation.tailrec
 
 object Day08Part1 extends AoCDay(2015, 8) {
-  val lines = getLines()
-  val HexaRegex = """(\\x[a-f0-9]{2})""".r
+  lazy val lines = getLines()
+  lazy val HexaRegex = """(\\x[a-f0-9]{2})""".r
 
   def countChars(currentCount: (Int, Int), string: String): (Int, Int) = {
     val (curr, inMemoreCurr) = currentCount
 
-    def hexaToString(hexa: String): String = Integer
-      .parseInt(hexa.drop(2), 16)
-      .toChar
-      .toString
+    def hexaToString(hexa: String): String =
+      Integer
+        .parseInt(hexa.drop(2), 16)
+        .toChar
+        .toString
 
     @tailrec
     def replaceEscapeChars(string: String): String = {
@@ -36,7 +37,8 @@ object Day08Part1 extends AoCDay(2015, 8) {
 
   lazy val (nbChars, inMemoreNbChars) = lines.foldLeft((0, 0))(countChars)
 
-  val res1 = nbChars - inMemoreNbChars
-  println(s"Res1: $nbChars - $inMemoreNbChars = $res1")
+  lazy val res1 = nbChars - inMemoreNbChars
+
+  override def resolveDay(): Unit = println(s"Res1: $nbChars - $inMemoreNbChars = $res1")
 
 }

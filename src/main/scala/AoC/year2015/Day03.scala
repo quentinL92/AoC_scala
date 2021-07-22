@@ -7,10 +7,10 @@ import scala.annotation.tailrec
 object Day03 extends AoCDay(2015, 3) {
   @tailrec
   def moove(
-             nextMooves: List[Char],
-             visited: Map[Int, Set[Int]] = Map(0 -> Set(0)),
-             position: (Int, Int) = (0, 0)
-           ): Int = {
+      nextMooves: List[Char],
+      visited: Map[Int, Set[Int]] = Map(0 -> Set(0)),
+      position: (Int, Int) = (0, 0)
+  ): Int = {
     val (x, y) = position
     //    println(s"Visited places: $visited")
     nextMooves match {
@@ -30,17 +30,16 @@ object Day03 extends AoCDay(2015, 3) {
     }
   }
 
-  val res = moove(getLine().toList)
-  println(res)
+  lazy val res = moove(getLine().toList)
 
   @tailrec
   def moove2(
-              nextMooves: List[Char],
-              visited: Map[Int, Set[Int]] = Map(0 -> Set(0)),
-              santaPosition: (Int, Int) = (0, 0),
-              robotPosition: (Int, Int) = (0, 0),
-              santasTurn: Boolean = true
-            ): Int = {
+      nextMooves: List[Char],
+      visited: Map[Int, Set[Int]] = Map(0 -> Set(0)),
+      santaPosition: (Int, Int) = (0, 0),
+      robotPosition: (Int, Int) = (0, 0),
+      santasTurn: Boolean = true
+  ): Int = {
     val (x, y) = if (santasTurn) santaPosition else robotPosition
     //    println(s"Visited places: $visited")
     nextMooves match {
@@ -77,6 +76,11 @@ object Day03 extends AoCDay(2015, 3) {
     }
   }
 
-  val res2 = moove2(getLine().toList)
-  println(res2)
+  lazy val res2 = moove2(getLine().toList)
+
+  override def resolveDay(): Unit = {
+    println(res)
+    println("-------------")
+    println(res2)
+  }
 }
