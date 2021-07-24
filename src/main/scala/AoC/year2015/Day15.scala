@@ -24,12 +24,13 @@ object Day15 extends AoCDay(2015, 15) {
       currentCombination: Vector[(Int, Ingredient)],
       remaingingIngredients: Vector[Ingredient],
       property: Ingredient => Int,
+      keepFunction: Int => Boolean,
       accumulatedPossibilites: List[Vector[Int]] = Nil
   ): List[Vector[Int]] = {
     remaingingIngredients match {
       case empty if empty.isEmpty =>
         val score = currentCombination.foldLeft(0) { case (acc, cur) => acc + (cur._1 * property(cur._2)) }
-        if (score > 0) currentCombination.map(_._1) :: accumulatedPossibilites
+        if (keepFunction(score)) currentCombination.map(_._1) :: accumulatedPossibilites
         else Nil
 
       case lastElem if lastElem.size == 1 =>
@@ -37,6 +38,7 @@ object Day15 extends AoCDay(2015, 15) {
           currentCombination.appended((100 - currentCombination.map(_._1).sum) -> lastElem.head),
           Vector.empty[Ingredient],
           property,
+          keepFunction,
           accumulatedPossibilites
         )
 
@@ -46,19 +48,25 @@ object Day15 extends AoCDay(2015, 15) {
             generatePossibilities(
               currentCombination.appended(cur -> moreThanOneElem.head),
               moreThanOneElem.tail,
-              property
+              property,
+              keepFunction,
+              accumulatedPossibilites
             ) ::: acc
         }
     }
   }
 
-  lazy val possibilities: List[Vector[Int]] = (0 until 100).foldLeft(List.empty[Vector[Int]]) {
-    case (acc, cur) =>
-      generatePossibilities(Vector(cur -> ingredients.head), ingredients.tail, _.capacity) ::: acc
-  }
+  def possibilities(keepFunction: Int => Boolean, property: Ingredient => Int): List[Vector[Int]] =
+    (0 until 100).foldLeft(List.empty[Vector[Int]]) {
+      case (acc, cur) =>
+        generatePossibilities(Vector(cur -> ingredients.head), ingredients.tail, property, keepFunction) ::: acc
+    }
 
   lazy val properties: List[Ingredient => Int] = List(
-    _.capacity, _.durability, _.flavor, _.texture
+    _.capacity,
+    _.durability,
+    _.flavor,
+    _.texture
   )
 
   lazy val remainingProperty: List[Ingredient => Int] = properties.tail
@@ -66,32 +74,50 @@ object Day15 extends AoCDay(2015, 15) {
   def filterPossibilities(
       possibilities: List[Vector[Int]],
       property: Ingredient => Int
-                         ): List[Vector[Int]] = {
+  ): List[Vector[Int]] = {
     possibilities.filter { possibility =>
-      val score = ingredients.zip(possibility).foldLeft(0) { case (acc, cur) => acc + (cur._2 * property(cur._1))}
+      val score = ingredients.zip(possibility).foldLeft(0) { case (acc, cur) => acc + (cur._2 * property(cur._1)) }
       score > 0
     }
   }
 
-  lazy val finalPossibilities: List[Vector[Int]] = remainingProperty.foldLeft(possibilities) {
-    case (acc, cur) => filterPossibilities(acc, cur)
-  }
-
-  lazy val finalPossibilitiesMidScore: List[List[Int]] = finalPossibilities.map { possibility =>
-    properties.map { property =>
-      possibility.zip(ingredients).foldLeft(0) { case (acc, cur) => acc + (cur._1 * property(cur._2)) }
+  lazy val finalPossibilitiesPart1: List[Vector[Int]] =
+    remainingProperty.foldLeft(possibilities(_ > 0, _.capacity)) {
+      case (acc, cur) => filterPossibilities(acc, cur)
     }
-  }
 
-  lazy val finalPossibilitiesScore: List[Int] = finalPossibilitiesMidScore.map(_.product)
+  def finalPossibilitiesMidScore(finalPossibilities: List[Vector[Int]]): List[List[Int]] =
+    finalPossibilities.map { possibility =>
+      properties.map { property =>
+        possibility.zip(ingredients).foldLeft(0) { case (acc, cur) => acc + (cur._1 * property(cur._2)) }
+      }
+    }
 
-  lazy val bestPossibilityScore: Int = finalPossibilitiesScore.max
+  lazy val finalPossibilitiesMidScorePart1: List[List[Int]] = finalPossibilitiesMidScore(finalPossibilitiesPart1)
+
+  lazy val finalPossibilitiesScorePart1: List[Int] =
+    finalPossibilitiesMidScorePart1.map(_.product)
+
+  lazy val bestPossibilityScorePart1: Int = finalPossibilitiesScorePart1.max
 
   lazy val bestPossibily: Vector[Int] =
-    finalPossibilities(finalPossibilitiesScore.indexWhere(_ == bestPossibilityScore))
+    finalPossibilitiesPart1(finalPossibilitiesScorePart1.indexWhere(_ == bestPossibilityScorePart1))
+
+  /*** Part 2 ***/
+  lazy val finalPossibilitiesPart2: List[Vector[Int]] =
+    properties.foldLeft(possibilities(_ == 500, _.calories)) {
+      case (acc, cur) => filterPossibilities(acc, cur)
+    }
+
+  lazy val finalPossibilitiesScorePart2: List[Int] = finalPossibilitiesMidScore(finalPossibilitiesPart2).map(_.product)
+  lazy val bestPossibilityScorePart2: Int = finalPossibilitiesScorePart2.max
+  lazy val bestPossibilyPart2: Vector[Int] =
+    finalPossibilitiesPart2(finalPossibilitiesScorePart2.indexWhere(_ == bestPossibilityScorePart2))
 
   override def resolveDay(): Unit = {
-    println(s"Best possibility: $bestPossibily")
-    println(s"Best possibility score: ${bestPossibilityScore}")
+//    println(s"Best possibility: $bestPossibily")
+//    println(s"Best possibility score: $bestPossibilityScorePart1")
+    println(s"Best possibility: $bestPossibilyPart2")
+    println(s"Best possibility score: $bestPossibilityScorePart2")
   }
 }
