@@ -1,16 +1,60 @@
 package AoC
 
-import java.io.{BufferedWriter, File, FileWriter}
+import java.io.{BufferedWriter, File, FileWriter, FilenameFilter}
 import scala.io.Source
 import scala.util.{Failure, Success, Using}
 
 abstract class AoCDay(year: Int, day: Int) extends App {
-  private val testFileName: String = s"src/main/resources/AoC/year$year/test$day.txt"
-  private val inputFileName: String = s"src/main/resources/AoC/year$year/input$day.txt"
+  private val testFilePath: String = s"src/main/resources/AoC/year$year/test$day.txt"
+  private val inputFilePath: String = s"src/main/resources/AoC/year$year/input$day.txt"
+  private lazy val aocUrl: String = s"https://adventofcode.com/$year/day/$day/input"
 
   private lazy val logFile: File = new File("D:\\Dev\\Scala\\sbt\\AoC_scala\\src\\main\\resources\\log.txt")
   private lazy val bw = new BufferedWriter(new FileWriter(logFile))
   private var logFileEvaluated: Boolean = false
+
+  private def downloadInput(): String = {
+    import java.net.{HttpURLConnection, URL}
+    val connection = (new URL(aocUrl)).openConnection.asInstanceOf[HttpURLConnection]
+    val sessionId = Using(Source.fromFile("src/main/resources/AoC/session.txt")) { src =>
+      src.getLines().mkString.trim
+    }.get
+    connection.setRequestProperty("Cookie", s"session=$sessionId")
+    connection.setConnectTimeout(5000)
+    connection.setReadTimeout(5000)
+    connection.setRequestMethod("GET")
+    val inputStream = connection.getInputStream
+    val content = Source.fromInputStream(inputStream).mkString
+    if (inputStream != null) inputStream.close()
+    content
+  }
+
+  private def getInputFilePath(testMode: Boolean): String = {
+    if (testMode) testFilePath
+    else {
+      val dir = new File(inputFilePath).getParentFile
+      dir
+        .listFiles(new FilenameFilter {
+          override def accept(dir: File, name: String): Boolean = name == s"input$day.txt"
+        })
+        .toList match {
+        case Nil =>
+          val inputFile = new File(inputFilePath)
+          val bw = new BufferedWriter(new FileWriter(inputFile))
+          val inputContent: String = downloadInput()
+          bw.write(inputContent)
+          bw.close()
+          inputFilePath
+
+        case head :: Nil =>
+          println(s"Input file found: ${head.getName}")
+          inputFilePath
+
+        case _ => throw new Exception(s"Multiple file with same name: ${inputFilePath.split(File.separator).last}")
+      }
+    }
+
+  }
 
   def writeLine(line: String): Unit = {
     logFileEvaluated = true
@@ -26,24 +70,23 @@ abstract class AoCDay(year: Int, day: Int) extends App {
   }
 
   def getLines(test: Boolean = false): Vector[String] = {
-    val fileName: String = if (test) testFileName else inputFileName
-    Using(Source.fromFile(fileName)) { src =>
+    Using(Source.fromFile(getInputFilePath(test))) { src =>
       src.getLines().toVector
     } match {
       case Failure(exception) =>
-        println(s"Error while reading lines from $fileName: $exception")
+        println(s"Error while reading lines from file (testMode=$test): $exception ${exception.getMessage}")
         Vector.empty[String]
+
       case Success(value) => value
     }
   }
 
   def getLine(test: Boolean = false): String = {
-    val fileName: String = if (test) testFileName else inputFileName
-    Using(Source.fromFile(fileName)) { src =>
+    Using(Source.fromFile(getInputFilePath(test))) { src =>
       src.getLines().take(1).toVector
     } match {
       case Failure(exception) =>
-        println(s"Error while reading lines from $fileName: $exception ${exception.getMessage}")
+        println(s"Error while reading lines from file (testMode=$test): $exception ${exception.getMessage}")
         Vector.empty[String].head // will throw an exception
 
       case Success(value) => value.head.trim
