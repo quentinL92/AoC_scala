@@ -15,7 +15,7 @@ abstract class AoCDay(year: Int, day: Int) extends App {
 
   private def downloadInput(): String = {
     import java.net.{HttpURLConnection, URL}
-    val connection = (new URL(aocUrl)).openConnection.asInstanceOf[HttpURLConnection]
+    val connection = new URL(aocUrl).openConnection.asInstanceOf[HttpURLConnection]
     val sessionId = Using(Source.fromFile("src/main/resources/AoC/session.txt")) { src =>
       src.getLines().mkString.trim
     }.get
@@ -47,7 +47,6 @@ abstract class AoCDay(year: Int, day: Int) extends App {
           inputFilePath
 
         case head :: Nil =>
-          println(s"Input file found: ${head.getName}")
           inputFilePath
 
         case _ => throw new Exception(s"Multiple file with same name: ${inputFilePath.split(File.separator).last}")
