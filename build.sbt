@@ -27,6 +27,8 @@ releaseNextVersion := { ver =>
 
 releaseVersionBump := Minor
 
+releaseIgnoreUntrackedFiles := true
+
 releaseProcess := Seq[ReleaseStep](
   inquireVersions,
   setReleaseVersion,
