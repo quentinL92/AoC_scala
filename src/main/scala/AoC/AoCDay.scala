@@ -46,8 +46,7 @@ abstract class AoCDay(year: Int, day: Int) extends App {
           bw.close()
           inputFilePath
 
-        case head :: Nil =>
-          inputFilePath
+        case _ :: Nil => inputFilePath
 
         case _ => throw new Exception(s"Multiple file with same name: ${inputFilePath.split(File.separator).last}")
       }
