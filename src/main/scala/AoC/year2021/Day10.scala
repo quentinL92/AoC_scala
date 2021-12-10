@@ -76,23 +76,23 @@ object Day10 extends AoCDay(2021, 10) {
 
     def part2(): Unit = {
       @tailrec
-      def process(remainingElements: List[Char], parenthesisAcc: Queue[Char] = Queue.empty[Char], score: Long = 0): Option[Long] = {
+      def process(remainingElements: List[Char], parenthesesAcc: Queue[Char] = Queue.empty[Char], score: Long = 0): Option[Long] = {
         remainingElements match {
-          case Nil if parenthesisAcc.isEmpty =>
+          case Nil if parenthesesAcc.isEmpty =>
             if (score != 0) Some(score) else None
 
           case Nil =>
-            val nextClosing = getMatchingClosingParenthesis(parenthesisAcc.head)
-            process(Nil, parenthesisAcc.dequeue._2, score * 5L + completionPoints.getOrElse(nextClosing, 0L))
+            val nextClosing = getMatchingClosingParenthesis(parenthesesAcc.head)
+            process(Nil, parenthesesAcc.dequeue._2, score * 5L + completionPoints.getOrElse(nextClosing, 0L))
 
-          case head :: tail if isClosingParenthesis(head) && matchingParenthesis(parenthesisAcc.head, head) =>
-            process(tail, parenthesisAcc.dequeue._2)
+          case head :: tail if isClosingParenthesis(head) && matchingParenthesis(parenthesesAcc.head, head) =>
+            process(tail, parenthesesAcc.dequeue._2)
 
           case head :: _ if isClosingParenthesis(head) =>
             None
 
-          case head :: tail if isOpeningParenthesis(head) => process(tail, parenthesisAcc.prepended(head))
-          case _ :: tail                                  => process(tail, parenthesisAcc)
+          case head :: tail if isOpeningParenthesis(head) => process(tail, parenthesesAcc.prepended(head))
+          case _ :: tail                                  => process(tail, parenthesesAcc)
         }
       }
 
