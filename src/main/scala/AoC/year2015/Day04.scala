@@ -5,6 +5,9 @@ import AoC.AoCDay
 import java.security.MessageDigest
 
 object Day04 extends AoCDay(2015, 4) {
+
+  override lazy val testMode: Boolean = false
+
   lazy val input: String = "bgvyzdsv"
   lazy val res1 = LazyList
     .from(1)

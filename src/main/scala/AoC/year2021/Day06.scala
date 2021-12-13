@@ -5,9 +5,12 @@ import AoC.AoCDay
 import scala.annotation.tailrec
 
 object Day06 extends AoCDay(2021, 6) {
+
+  override lazy val testMode: Boolean = false
+
   override def resolveDay(): Unit = {
 
-    val line = getLine().split(',').map(_.toInt).toList
+    val line = getLine.split(',').map(_.toInt).toList
 
     def part1(): Unit = {
       val numberOfDays = 80

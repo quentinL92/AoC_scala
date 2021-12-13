@@ -5,6 +5,9 @@ import AoC.AoCDay
 import scala.annotation.tailrec
 
 object Day03 extends AoCDay(2015, 3) {
+
+  override lazy val testMode: Boolean = false
+
   @tailrec
   def moove(
       nextMooves: List[Char],
@@ -30,7 +33,7 @@ object Day03 extends AoCDay(2015, 3) {
     }
   }
 
-  lazy val res = moove(getLine().toList)
+  lazy val res = moove(getLine.toList)
 
   @tailrec
   def moove2(
@@ -76,7 +79,7 @@ object Day03 extends AoCDay(2015, 3) {
     }
   }
 
-  lazy val res2 = moove2(getLine().toList)
+  lazy val res2 = moove2(getLine.toList)
 
   override def resolveDay(): Unit = {
     println(res)

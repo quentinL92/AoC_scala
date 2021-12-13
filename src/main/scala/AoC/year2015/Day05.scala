@@ -5,6 +5,9 @@ import AoC.AoCDay
 import scala.annotation.tailrec
 
 object Day05 extends AoCDay(2015, 5) {
+
+  override lazy val testMode: Boolean = false
+
   def isNice(string: String, checks: List[String => Boolean]): Boolean = {
     checks.forall(_ (string))
   }
@@ -45,10 +48,10 @@ object Day05 extends AoCDay(2015, 5) {
   def pairRepeatedCheck(str: String): Boolean = checkPairRepeated(str.toList)
 
   override def resolveDay(): Unit = {
-    val res1 = getLines().count(isNice(_, List(vowelsCheck, adjacentCheck, notInCheck)))
+    val res1 = getLines.count(isNice(_, List(vowelsCheck, adjacentCheck, notInCheck)))
     println(s"Res1: $res1")
 
-    val res2 = getLines().count(isNice(_, List(adjacentWithCharBetweenCheck, pairRepeatedCheck)))
+    val res2 = getLines.count(isNice(_, List(adjacentWithCharBetweenCheck, pairRepeatedCheck)))
     println(s"Res2: $res2")
   }
 }

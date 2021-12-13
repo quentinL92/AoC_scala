@@ -7,6 +7,8 @@ import scala.util.matching.Regex
 
 object Day16 extends AoCDay(2015, 16) {
 
+  override lazy val testMode: Boolean = false
+
   case class Aunt(
       number: Int,
       children: Option[Int] = None,
@@ -103,8 +105,7 @@ object Day16 extends AoCDay(2015, 16) {
 
   }
 
-  lazy val testMode: Boolean = false
-  lazy val aunties = getLines(test = testMode).flatMap(Aunt.fromString)
+  lazy val aunties = getLines.flatMap(Aunt.fromString)
 
   lazy val possibleAuntSue: Vector[Aunt] = aunties.filter(_.matchAunty())
   lazy val realAuntSue: Aunt = aunties.filter(_.matchAuntyPart2()).head

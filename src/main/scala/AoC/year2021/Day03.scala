@@ -6,9 +6,11 @@ import scala.annotation.tailrec
 
 object Day03 extends AoCDay(2021, 3) {
 
+  override lazy val testMode: Boolean = false
+
   override def resolveDay(): Unit = {
 
-    val lines = getLines()
+    val lines = getLines
 
     @tailrec
     def findBinaryValue(remainingLines: List[String], bitCriteria: Char, index: Int = 0): String = {

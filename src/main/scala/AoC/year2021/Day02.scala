@@ -6,6 +6,8 @@ import scala.util.matching.Regex
 
 object Day02 extends AoCDay(2021, 2) {
 
+  override lazy val testMode: Boolean = false
+
   override def resolveDay(): Unit = {
     val Forward: Regex = """forward (\d+)""".r
     val Down: Regex = """down (\d+)""".r
@@ -23,7 +25,7 @@ object Day02 extends AoCDay(2021, 2) {
       case ((hor, depth, aim), Up(distance)) => (hor, depth, aim  - distance.toInt)
     }
 
-    val (finalHor, finalDepth, _) = getLines().foldLeft((0, 0, 0))(partialFNPart2)
+    val (finalHor, finalDepth, _) = getLines.foldLeft((0, 0, 0))(partialFNPart2)
     println(finalHor * finalDepth)
   }
 }

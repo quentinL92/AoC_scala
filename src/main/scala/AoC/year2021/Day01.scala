@@ -4,7 +4,9 @@ import AoC.AoCDay
 
 object Day01 extends AoCDay(2021, 1) {
 
-  lazy val lines: Vector[Int] = getLines().map(_.toInt)
+  override lazy val testMode: Boolean = false
+
+  lazy val lines: Vector[Int] = getLines.map(_.toInt)
 
   def part1(): Unit =
     println(lines.sliding(2).count {

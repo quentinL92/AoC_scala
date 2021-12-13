@@ -5,11 +5,13 @@ import cats.data.Validated
 import cats.data.Validated.{Invalid, Valid}
 import cats.implicits._
 
-import java.io.{BufferedWriter, File, FileWriter}
 import scala.collection.mutable
 
 object Day12Part2 extends AoCDay(2015, 12) {
-  lazy val line: String = getLine()
+
+  override lazy val testMode: Boolean = false
+
+  lazy val line: String = getLine
 
   lazy val openingBrackets: List[Char] = List('{', '[')
   lazy val closingBrackets: List[Char] = List('}', ']')

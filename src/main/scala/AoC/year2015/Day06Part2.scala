@@ -6,6 +6,8 @@ import scala.util.matching.Regex
 
 object Day06Part2 extends AoCDay(2015, 6) {
 
+  override lazy val testMode: Boolean = false
+
   lazy val InstructionLine: Regex = """(turn on|toggle|turn off) (\d+),(\d+) through (\d+),(\d+)""".r
 
   def coor(s: String) = {
@@ -15,7 +17,7 @@ object Day06Part2 extends AoCDay(2015, 6) {
 
   lazy val grid: Array[Array[Int]] = Array.fill(1000, 1000)(0)
   for {
-    InstructionLine(instruction, fromx, fromy, tox, toy) <- getLines()
+    InstructionLine(instruction, fromx, fromy, tox, toy) <- getLines
     x <- fromx.toInt to tox.toInt
     y <- fromy.toInt to toy.toInt
   } instruction match {

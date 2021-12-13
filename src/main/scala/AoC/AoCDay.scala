@@ -13,11 +13,13 @@ abstract class AoCDay(year: Int, day: Int) extends App {
   private lazy val bw = new BufferedWriter(new FileWriter(logFile))
   private var logFileEvaluated: Boolean = false
 
+  def testMode: Boolean
+
   private def downloadInput(): String = {
     import java.net.{HttpURLConnection, URL}
     val connection = new URL(aocUrl).openConnection.asInstanceOf[HttpURLConnection]
     val sessionId = Using(Source.fromFile("src/main/resources/AoC/session.txt")) { src =>
-      src.getLines().mkString.trim
+      src.getLines.mkString.trim
     }.get
     connection.setRequestProperty("Cookie", s"session=$sessionId")
     connection.setConnectTimeout(5000)
@@ -29,7 +31,7 @@ abstract class AoCDay(year: Int, day: Int) extends App {
     content
   }
 
-  private def getInputFilePath(testMode: Boolean): String = {
+  private def getInputFilePath: String = {
     if (testMode) testFilePath
     else {
       val dir = new File(inputFilePath).getParentFile
@@ -62,29 +64,33 @@ abstract class AoCDay(year: Int, day: Int) extends App {
 
   def resolveDay(): Unit
 
+  def display(string: String): Unit =
+    if (testMode) println(string)
+    else ()
+
   def main(): Unit = {
     resolveDay()
     if (logFileEvaluated) bw.close()
   }
 
-  def getLines(test: Boolean = false): Vector[String] = {
-    Using(Source.fromFile(getInputFilePath(test))) { src =>
-      src.getLines().toVector
+  def getLines: Vector[String] = {
+    Using(Source.fromFile(getInputFilePath)) { src =>
+      src.getLines.toVector
     } match {
       case Failure(exception) =>
-        println(s"Error while reading lines from file (testMode=$test): $exception ${exception.getMessage}")
+        println(s"Error while reading lines from file (testMode=$testMode): $exception ${exception.getMessage}")
         Vector.empty[String]
 
       case Success(value) => value
     }
   }
 
-  def getLine(test: Boolean = false): String = {
-    Using(Source.fromFile(getInputFilePath(test))) { src =>
-      src.getLines().take(1).toVector
+  def getLine: String = {
+    Using(Source.fromFile(getInputFilePath)) { src =>
+      src.getLines.take(1).toVector
     } match {
       case Failure(exception) =>
-        println(s"Error while reading lines from file (testMode=$test): $exception ${exception.getMessage}")
+        println(s"Error while reading lines from file (testMode=$testMode): $exception ${exception.getMessage}")
         Vector.empty[String].head // will throw an exception
 
       case Success(value) => value.head.trim

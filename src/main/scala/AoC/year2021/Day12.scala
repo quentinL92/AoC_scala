@@ -3,10 +3,12 @@ package AoC.year2021
 import AoC.AoCDay
 
 object Day12 extends AoCDay(2021, 12) {
-  override def resolveDay(): Unit = {
-    val testMode = false
 
-    lazy val lines = getLines(test = testMode).map(_.trim)
+  override lazy val testMode: Boolean = false
+
+  override def resolveDay(): Unit = {
+
+    lazy val lines = getLines.map(_.trim)
     val connections: Map[String, Vector[String]] = lines
       .map(_.split('-'))
       .flatMap {

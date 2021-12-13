@@ -4,8 +4,9 @@ import AoC.AoCDay
 
 object Day14 extends AoCDay(2015, 14) {
 
-  lazy val testMode: Boolean = false
-  lazy val lines = getLines(test = testMode)
+  override lazy val testMode: Boolean = false
+
+  lazy val lines = getLines
   lazy val duration = if (testMode) 1000 else 2503
 
   lazy val ReindeerRegex = """(\w+) can fly (\d+) km/s for (\d+) seconds, but then must rest for (\d+) seconds.""".r

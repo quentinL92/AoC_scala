@@ -5,14 +5,16 @@ import AoC.AoCDay
 import scala.annotation.tailrec
 
 object Day09 extends AoCDay(2021, 9) {
+
+  override lazy val testMode: Boolean = false
+
   override def resolveDay(): Unit = {
-    val testMode = false
 
     case class Point(x: Int, y: Int, value: Int, isLow: Boolean) {
       def toLocation: (Int, Int) = x -> y
     }
 
-    lazy val lines: Vector[String] = getLines(test = testMode)
+    lazy val lines: Vector[String] = getLines
 
     val grid: Vector[Vector[Point]] = lines.zipWithIndex.map {
       case (y, iy) =>

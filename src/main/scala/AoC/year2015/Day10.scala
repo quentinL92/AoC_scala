@@ -6,6 +6,9 @@ import scala.annotation.tailrec
 import scala.util.matching.Regex
 
 object Day10 extends AoCDay(2015, 10) {
+
+  override lazy val testMode: Boolean = false
+
   lazy val line: String = "3113322113"
   @tailrec
   def iterate(chars: List[Char], result: String = ""): String = chars match {

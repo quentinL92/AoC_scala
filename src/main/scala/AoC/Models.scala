@@ -7,11 +7,13 @@ object Models {
                                               |import AoC.AoCDay
                                               |
                                               |object Day${day.formatted("%02d")} extends AoCDay($year, $day) {
-                                              |  override def resolveDay(): Unit = {
-                                              |    val testMode = true
                                               |
-                                              |    lazy val lines = getLines(test = testMode)
-                                              |    lazy val line = getLine(test = testMode)
+                                              |  override lazy val testMode: Boolean = true
+                                              |
+                                              |  override def resolveDay(): Unit = {
+                                              |
+                                              |    lazy val lines = getLines
+                                              |    lazy val line = getLine
                                               |
                                               |    def part1(): Unit = {
                                               |

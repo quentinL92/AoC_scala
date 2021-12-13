@@ -3,7 +3,10 @@ package AoC.year2015
 import AoC.AoCDay
 
 object Day01 extends AoCDay(2015, 1) {
-  lazy val line: String = getLine()
+
+  override lazy val testMode: Boolean = false
+
+  lazy val line: String = getLine
   lazy val res: Int = line.toList.foldLeft(0) {
     case (acc, cur) if cur == '(' => acc + 1
     case (acc, cur) if cur == ')' => acc - 1

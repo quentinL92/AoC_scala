@@ -4,8 +4,10 @@ import AoC.AoCDay
 
 object Day02 extends AoCDay(2015, 2) {
 
+  override lazy val testMode: Boolean = false
+
   lazy val Dimensions = """(\d+)x(\d+)x(\d+)""".r
-  lazy val (paper, ribbon) = getLines()
+  lazy val (paper, ribbon) = getLines
     .collect {
       case Dimensions(l, w, h) => (l.toInt, w.toInt, h.toInt)
     }

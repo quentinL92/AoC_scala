@@ -4,12 +4,12 @@ import AoC.AoCDay
 
 object Day17 extends AoCDay(2015, 17) {
 
-  lazy val testMode: Boolean = false
+  override lazy val testMode: Boolean = false
   lazy val liters: Int = if (testMode) 25 else 150
 
   // The trick is to zip the collection with its index so combinations will work as expected here
   lazy val fridges: List[(Int, Int)] =
-    getLines(test = testMode).toList.zipWithIndex
+    getLines.toList.zipWithIndex
       .map { case (fridgeCapacity, fridgeIndex) => fridgeCapacity.toInt -> fridgeIndex }
 
   def combine(

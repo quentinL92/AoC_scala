@@ -4,10 +4,12 @@ import AoC.AoCDay
 
 object Day13 extends AoCDay(2015, 13) {
 
+  override lazy val testMode: Boolean = false
+
   lazy val GainRegex = """([a-zA-Z]+) would gain (\d+) happiness units by sitting next to ([a-zA-Z]+)\.\s?""".r
   lazy val LossRegex = """([a-zA-Z]+) would lose (\d+) happiness units by sitting next to ([a-zA-Z]+)\.\s?""".r
 
-  lazy val lines = getLines()
+  lazy val lines = getLines
   lazy val mapLove: Map[String, Map[String, Int]] = lines
     .collect {
       case GainRegex(a, amount, b) => (a, amount.toInt, b)

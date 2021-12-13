@@ -6,6 +6,8 @@ import scala.util.matching.Regex
 
 object Day11 extends AoCDay(2015, 11) {
 
+  override lazy val testMode: Boolean = false
+
   implicit class OnChar(c: Char) {
     lazy val aValue: Int = 'a'.toInt
     lazy val zValue: Int = 'z'.toInt
@@ -15,10 +17,10 @@ object Day11 extends AoCDay(2015, 11) {
 
   implicit class OnString(string: String) {
     def increment: String = string match {
-        case str if str.isEmpty => str
-        case str if str.last == 'z' => str.dropRight(1).increment + 'a'
-        case _ => string.dropRight(1) + string.last.increment
-      }
+      case str if str.isEmpty     => str
+      case str if str.last == 'z' => str.dropRight(1).increment + 'a'
+      case _                      => string.dropRight(1) + string.last.increment
+    }
   }
 
   lazy val TwoGroupsOfTwoIdenticalChar: Regex = """(?:([a-z])\1.*){2}""".r

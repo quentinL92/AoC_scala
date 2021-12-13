@@ -5,9 +5,12 @@ import AoC.AoCDay
 import scala.util.matching.Regex
 
 object Day05 extends AoCDay(2021, 5) {
+
+  override lazy val testMode: Boolean = false
+
   override def resolveDay(): Unit = {
 
-    val lines = getLines()
+    val lines = getLines
     val LineRegex: Regex = """(\d+),(\d+) -> (\d+),(\d+)""".r
 
     def part1(): Unit = {

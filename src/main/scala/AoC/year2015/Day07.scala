@@ -5,6 +5,9 @@ import AoC.AoCDay
 import scala.collection.mutable
 
 object Day07 extends AoCDay(2015, 7) {
+
+  override lazy val testMode: Boolean = false
+
   lazy val OrRegex = """(\w+) OR (\w+)""".r
   lazy val AndRegex = """(\w+) AND (\w+)""".r
   lazy val RshiftRegex = """(\w+) RSHIFT (\d+)""".r
@@ -12,7 +15,7 @@ object Day07 extends AoCDay(2015, 7) {
   lazy val NotRegex = """NOT (\w+)""".r
   lazy val EqualRegex = """(\w+)""".r
 
-  lazy val operations: Map[String, String] = getLines().map { line =>
+  lazy val operations: Map[String, String] = getLines.map { line =>
     val Array(a, b) = line.split(" -> ").map(_.trim)
     b -> a
   }.toMap

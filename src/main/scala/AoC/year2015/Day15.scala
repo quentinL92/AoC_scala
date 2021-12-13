@@ -5,8 +5,9 @@ import AoC.AoCDay
 import scala.util.matching.Regex
 
 object Day15 extends AoCDay(2015, 15) {
-  lazy val isTest: Boolean = false
-  lazy val lines = getLines(test = isTest)
+
+  override lazy val testMode: Boolean = false
+  lazy val lines = getLines
 
   lazy val IngredientRegex: Regex =
     """(\w+): capacity (-?\d+), durability (-?\d+), flavor (-?\d+), texture (-?\d+), calories (-?\d+)""".r

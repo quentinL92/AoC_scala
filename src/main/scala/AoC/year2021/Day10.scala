@@ -6,10 +6,12 @@ import scala.annotation.tailrec
 import scala.collection.immutable.Queue
 
 object Day10 extends AoCDay(2021, 10) {
-  override def resolveDay(): Unit = {
-    val testMode = false
 
-    lazy val lines = getLines(test = testMode).map(_.trim)
+  override lazy val testMode: Boolean = false
+
+  override def resolveDay(): Unit = {
+
+    lazy val lines = getLines.map(_.trim)
 
     val errorPoints: Map[Char, Long] = Map(
       ')' -> 3,
@@ -96,9 +98,13 @@ object Day10 extends AoCDay(2021, 10) {
         }
       }
 
-      val res = lines.map(_.toList).map(process(_)).collect {
-        case Some(value) => value
-      }.sorted
+      val res = lines
+        .map(_.toList)
+        .map(process(_))
+        .collect {
+          case Some(value) => value
+        }
+        .sorted
 
       println(res)
       println(s"Part2 = ${res(res.length / 2)}")

@@ -6,9 +6,12 @@ import scala.annotation.tailrec
 import scala.util.matching.Regex
 
 object Day04 extends AoCDay(2021, 4) {
+
+  override lazy val testMode: Boolean = false
+
   override def resolveDay(): Unit = {
 
-    val lines = getLines()
+    val lines = getLines
     val numbers: List[Int] = lines.head.split(',').map(_.toInt).toList
 
     case class BingoBoardValue(value: Int, checked: Boolean = false)

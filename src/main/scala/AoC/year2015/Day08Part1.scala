@@ -5,7 +5,10 @@ import AoC.AoCDay
 import scala.annotation.tailrec
 
 object Day08Part1 extends AoCDay(2015, 8) {
-  lazy val lines = getLines()
+
+  override lazy val testMode: Boolean = false
+
+  lazy val lines = getLines
   lazy val HexaRegex = """(\\x[a-f0-9]{2})""".r
 
   def countChars(currentCount: (Int, Int), string: String): (Int, Int) = {

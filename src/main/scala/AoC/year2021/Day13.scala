@@ -3,10 +3,12 @@ package AoC.year2021
 import AoC.AoCDay
 
 object Day13 extends AoCDay(2021, 13) {
-  override def resolveDay(): Unit = {
-    val testMode = false
 
-    lazy val lines = getLines(test = testMode)
+  override lazy val testMode: Boolean = false
+
+  override def resolveDay(): Unit = {
+
+    lazy val lines = getLines
 
     val (pointsSeparated, foldInstructionsSeparated) = lines.filter(_.trim.nonEmpty).partition(_.contains(","))
     val points: Set[(Int, Int)] = pointsSeparated

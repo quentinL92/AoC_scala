@@ -6,7 +6,10 @@ import AoC.datastructure.graph.Graph
 import scala.util.matching.Regex
 
 object Day09 extends AoCDay(2015, 9) {
-  lazy val lines: Vector[String] = getLines(true)
+
+  override lazy val testMode: Boolean = false
+
+  lazy val lines: Vector[String] = getLines
   lazy val TownRegex: Regex = """(\w+) to (\w+) = \d+""".r
   lazy val EdgeRegex: Regex = """(\w+) to (\w+) = (\d+)""".r
   lazy val towns: Set[String] = lines.flatMap { case TownRegex(town1, town2) => List(town1, town2) }.toSet

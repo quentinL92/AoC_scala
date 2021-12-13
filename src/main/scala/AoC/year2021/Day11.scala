@@ -5,10 +5,12 @@ import AoC.AoCDay
 import scala.annotation.tailrec
 
 object Day11 extends AoCDay(2021, 11) {
-  override def resolveDay(): Unit = {
-    val testMode = false
 
-    lazy val lines = getLines(test = testMode)
+  override lazy val testMode: Boolean = false
+
+  override def resolveDay(): Unit = {
+
+    lazy val lines = getLines
 
     case class Octopus(x: Int, y: Int, energy: Int) {
       def incrementEnergy: Octopus = {
