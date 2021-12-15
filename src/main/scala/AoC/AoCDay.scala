@@ -14,6 +14,7 @@ abstract class AoCDay(year: Int, day: Int) extends App {
   private var logFileEvaluated: Boolean = false
 
   def testMode: Boolean
+  def resolveDay(): Unit
 
   private def downloadInput(): String = {
     import java.net.{HttpURLConnection, URL}
@@ -62,8 +63,6 @@ abstract class AoCDay(year: Int, day: Int) extends App {
     bw.newLine()
   }
 
-  def resolveDay(): Unit
-
   def display(string: String): Unit =
     if (testMode) println(string)
     else ()
@@ -95,6 +94,19 @@ abstract class AoCDay(year: Int, day: Int) extends App {
 
       case Success(value) => value.head.trim
     }
+  }
+
+  def getNeighbours(x: Int, y: Int, xMax: Int, yMax: Int, withDiagonals: Boolean): List[(Int, Int)] = {
+    def guard(xOther: Int, yOther: Int): Boolean =
+      xOther >= 0 && xOther <= xMax &&
+        yOther >= 0 && yOther <= yMax &&
+        (x, y) != (xOther, yOther) &&
+        (if (withDiagonals) xOther == x || yOther == y else true)
+
+    (for {
+      xOther <- (x - 1) to (x + 1)
+      yOther <- (y - 1) to (y + 1) if guard(xOther, yOther)
+    } yield xOther -> yOther).toList
   }
 
   main()

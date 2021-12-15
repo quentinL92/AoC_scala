@@ -40,6 +40,7 @@ object Day13 extends AoCDay(2021, 13) {
           foldSheet(currentPoints, foldDirection, foldValue)
       }
 
+      display(s"Final points = $finalPoints")
       println(s"Part1 = ${finalPoints.size}")
     }
 
