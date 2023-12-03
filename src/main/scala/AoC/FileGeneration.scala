@@ -9,8 +9,12 @@ object FileGeneration extends App {
 
   def generateTestFileFor(year: Int): Unit = {
     (1 to 25)
-      .map { day =>
-        new File(testFolder(year) + s"/test$day.txt")
+      .toList
+      .flatMap { day =>
+        List(
+          new File(testFolder(year) + s"/test$day.txt"),
+          new File(testFolder(year) + s"/input$day.txt")
+        )
       }
       .filterNot(f => f.exists())
       .foreach { f =>
@@ -29,5 +33,6 @@ object FileGeneration extends App {
       }
   }
 
-  generateEmptyDays(2021)
+//  generateEmptyDays(2023)
+  generateTestFileFor(2023)
 }
